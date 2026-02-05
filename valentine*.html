@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.screen {
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  text-align: center;
+}
+
+.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pink {
+  background: pink;
+  overflow: hidden;
+}
+
+/* FLOATING HEARTS */
+.heart {
+  position: absolute;
+  bottom: -30px;
+  color: red;
+  font-size: 22px;
+  animation: floatUp linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+h1 {
+  z-index: 2;
+  padding: 20px;
+}
+
+button {
+  padding: 12px 26px;
+  margin: 10px;
+  font-size: 18px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.yes {
+  background: hotpink;
+  color: white;
+}
+
+.no {
+  background: gray;
+  color: white;
+}
+
+.back {
+  position: absolute;
+  bottom: 30px;
+  background: white;
+  color: black;
+  font-size: 14px;
+  z-index: 2;
+}
+
+/* FINAL SCREEN */
+#final {
+  background: url("finalphoto.jpg") center/cover no-repeat;
+}
+
+#final::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.65);
+}
+
+.final-text {
+  position: relative;
+  font-size: 32px;
+  color: #c4006f;
+  text-align: center;
+  padding: 40px;
+  z-index: 2;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Screen 1 -->
+<div class="screen pink active" id="screen1">
+  <h1>Will you be my forever ❤️?</h1>
+  <button class="yes" onclick="showFinal()">YES 💕</button>
+  <button class="no" onclick="showScreen(2)">NO 💔</button>
+</div>
+
+<!-- Screen 2 -->
+<div class="screen pink" id="screen2">
+  <h1>Are you sure 🤔?</h1>
+  <button class="yes" onclick="showScreen(3)">Yes</button>
+  <button class="no" onclick="showFinal()">No</button>
+  <button class="back" onclick="goBack()">⬅ Back</button>
+</div>
+
+<!-- Screen 3 -->
+<div class="screen pink" id="screen3">
+  <h1>Think carefully dear 😊<br>Will you be my Valentine?</h1>
+  <button class="yes" onclick="showFinal()">YES 😘</button>
+  <button class="no" id="runaway">NO 😜</button>
+  <button class="back" onclick="goBack()">⬅ Back</button>
+</div>
+
+<!-- Final Screen -->
+<div class="screen" id="final">
+  <div class="final-text">
+    Great choice 😝<br><br>
+    You made your best decision 💖<br><br>
+    I love you pyaroo manxe 😘
+  </div>
+</div>
+
+<script>
+let lastScreen = 1;
+
+/* Screen navigation */
+function showScreen(num) {
+  const current = document.querySelector(".screen.active");
+  if (current && current.id !== "final") {
+    lastScreen = current.id.replace("screen", "");
+  }
+
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById("screen" + num).classList.add("active");
+}
+
+function showFinal() {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById("final").classList.add("active");
+}
+
+function goBack() {
+  showScreen(lastScreen);
+}
+
+/* Runaway NO button */
+const noBtn = document.getElementById("runaway");
+noBtn.addEventListener("mouseover", () => {
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * 80 + "%";
+  noBtn.style.top = Math.random() * 80 + "%";
+});
+
+/* CREATE FLOATING HEARTS INSIDE PINK SCREENS */
+document.querySelectorAll(".pink").forEach(screen => {
+  for (let i = 0; i < 25; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    heart.style.animationDelay = Math.random() * 5 + "s";
+    screen.appendChild(heart);
+  }
+});
+</script>
+
+</body>
+</html>
